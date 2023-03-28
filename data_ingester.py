@@ -168,10 +168,10 @@ add_new_df.show()
 add_new_df.createOrReplaceTempView("TempTable")
 query_df1 = spark.sql("""
     SELECT
-        DATE_FORMAT(temptable.`Trip Start Timestamp`, "EEEE") AS day_of_week,
+        DATE_FORMAT(temptable.`Trip Start Timestamp`, "EEEE" ) AS day_of_week,
         AVG(temptable.Fare) AS avg_fare
     FROM
-        `TempTable`
+        TempTable
     WHERE
         temptable.Fare > 0 AND
         temptable.`Trip Start Timestamp` IS NOT NULL
