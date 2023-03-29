@@ -44,4 +44,28 @@ This README provided instructions on how to build a data pipeline for the Chicag
 ## Part 2 - Architectural Overview
 - Please see the "`Architectural Overview CF Part 2.drawio`" file as a response to Part 2 of the assignment. To open the file please use the draw.io application (offline or online), simply google for draw.io, go to the tool, upload the design by choosing Device option. 
 
+### Short Explanation on the Architecture 
+
+- As we all know Data have become one of the primary business assets, and for a taxi service company good quality data will be the foundation of efficient operations. In order to actually 
+extract the value from data and monetize the value one needs an efficient data analytics platform that serves both the end customer (taxi service users) and business users (finance dept. or planning dept. for example), and is agile in its performance. 
+With the above being said, the non-functional requirements such as scalibility, reliability, and high-availibility is equally important as the functional ones. 
+
+- The diagram in the attached file represents one such high-level architecture of a data analytics platform that caters to acquire, organize, ingestion, processing, storage and consumption of data in an cost-effective, scalable and secure manner.
+- In an organization, there can be various data sources (both internal and external) of importance from which daily (or any other desired frequency) acquiring of data needs to happen. For this an automated collection agent will be very helpful through which one can manage the addition or deletion of various data sources. All this data, raw in nature, needs to be stored
+in a cheap storage and there one can leverage cloud native solutions like S3 (AWS) or Blob (Azure). 
+This storage can serve as the data lake for the organization, that provides data for downstream stages of the pipeline. 
+- Once the data is there in the data lake, the processing stage workflows can be triggered to ETL and load the data in warehouse storage from where other stages like presentation or API portal can consume it further for business insights.
+- It is important to note that there can be many solution designs or architectures for this given problem, but all those solutions will be primarily driven by the actual specification and requirements, which at the moment is vague for me, but as a general rule of thumb I suggest the `following pointers to reach or narrow down on decisions`
+  - Understand & quantify the amount of data (the platform might store billion rows but it might not need to ingest billion rows everyday, by understanding this one gets the clarity that one may need storage for billion rows but not necessarily the compute capacity to process it daily)
+  - Choose open-source over paid license tool wherever possible (helps in to avoid vendor lock-in, or set costs)
+  - Choose cloud native design 
+  - Understand and choose between frameworks such as data mesh, or data warehouse
+  - Run/build proof of concepts before selecting tools 
+  - Understand the in-house capability and capacity in terms of technology before solutioning
+  - Set clear business goals and use-cases to have sponsorship from management 
+  - Understand the integration needs of the data platform such as how it will connect with your existing technology stack
+  - and many more
+- It is highly recommended to run proof of concepts with a focus group before finalizing the stack
+
+
 
