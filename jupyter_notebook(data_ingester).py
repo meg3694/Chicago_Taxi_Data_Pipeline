@@ -143,6 +143,7 @@ col_datatypes = {'Trip Start Timestamp': 'timestamp', 'Trip End Timestamp': 'tim
 changed_datatypes_df = change_datatypes(df, col_datatypes)
 changed_datatypes_df.printSchema()
 
+
 ######### ------- Data Transformation ---------- ############
 
 def add_new_col(df):
@@ -168,7 +169,7 @@ add_new_df.show()
 add_new_df.createOrReplaceTempView("TempTable")
 query_df1 = spark.sql("""
     SELECT
-        DATE_FORMAT(temptable.`Trip Start Timestamp`, "EEEE" ) AS day_of_week,
+        DATE_FORMAT(temptable.`Trip Start Timestamp`, 'EEEE' ) AS day_of_week,
         AVG(temptable.Fare) AS avg_fare
     FROM
         TempTable
@@ -189,4 +190,40 @@ query_df1 = spark.sql("""
         END
 """
                       )
+print("Result of Query : What is the average fare per trip by day of the week?")
 query_df1.show()
+
+###### Calculating the average fare per mile for each taxi company #####
+query_df2 = spark.sql("""
+SELECT company, AVG(fare / `Trip Miles`) AS avg_fare_per_mile
+FROM TempTable
+GROUP BY company
+"""
+                      )
+print("Result of Query : Calculating the average fare per mile for each taxi company ")
+query_df2.show()
+
+#####Finding the top 10 most frequent pickup locations ###
+
+query_df3 = spark.sql("""
+SELECT `Pickup Community Area`, COUNT(*) AS pickup_count
+FROM TempTable
+GROUP BY `Pickup Community Area`
+ORDER BY pickup_count DESC
+LIMIT 10
+                      """
+                      )
+print("Result of Query : Finding the top 10 most frequent pickup locations ")
+query_df3.show()
+
+####### How many rides for a specific company
+query_df4 = spark.sql("""SELECT company, COUNT(*) AS TotalRides
+FROM TempTable
+group by company
+"""
+                      )
+print("Result of Query : How many rides for a specific company ")
+query_df4.show()
+
+###############################################
+
