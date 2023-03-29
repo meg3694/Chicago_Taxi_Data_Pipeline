@@ -1,4 +1,4 @@
 # created by virtualenv automatically
-*
-/.idea
-*.DS_Store
+.idea
+.DS_Store
+

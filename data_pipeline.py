@@ -10,7 +10,7 @@ from pyspark.sql.types import TimestampType
 import pandas as pd
 import numpy as np
 
-filepath= "/Users/meghnagupta/Downloads/Taxi_Trips.csv"
+filepath = "/Users/meghnagupta/Downloads/Taxi_Trips.csv"
 
 if __name__ == '__main__':
     scSpark = SparkSession \
@@ -32,6 +32,7 @@ def data_extraction(filepath):
     return df
    # df.show()
 
+
 data_extraction(filepath)
 
 ########### -------Data Validation and Data Cleaning ---- ##########
@@ -42,7 +43,7 @@ def data_cleaning_load_to_csv(df):
     # Drop any rows with missing values
     df = df.dropna()
 
-    #df = df.select("Trip Start Timestamp", "Trip End Timestamp", "Trip Seconds", "Trip Miles", "Pickup Community Area", "Dropoff Community Area")
+    # df = df.select("Trip Start Timestamp", "Trip End Timestamp", "Trip Seconds", "Trip Miles", "Pickup Community Area", "Dropoff Community Area")
     df = df.withColumnRenamed("Trip Start Timestamp", "start_timestamp") \
             .withColumnRenamed("Trip End Timestamp", "end_timestamp") \
             .withColumnRenamed("Trip Seconds", "trip_seconds") \
@@ -68,14 +69,12 @@ def data_cleaning_load_to_csv(df):
     # Remove any rows where the trip speed is greater than 100 miles per hour
     df = df[df['trip_miles'] / (df['trip_seconds'] / 3600) <= 100]
 
-
     df = df.drop(*('Tolls', 'Pickup Census Tract',
                   'Dropoff Census Tract', 'Pickup Centroid Latitude',
                   'Pickup Centroid Longitude', 'Dropoff Centroid Latitude' ,
                   'Dropoff Centroid Longitude'))
 
-
-    df= df.withColumn('trip_miles',df['trip_miles'].cast(FloatType())) \
+    df = df.withColumn('trip_miles',df['trip_miles'].cast(FloatType())) \
         .withColumn('start_timestamp',df['start_timestamp'].cast(TimeStampType())) \
         .withColumn('end_timestamp',df['end_timestamp'].cast(TimeStampType()))\
         .withColumn('Fare',df['Fare'].cast(FloatType())) \
@@ -85,6 +84,7 @@ def data_cleaning_load_to_csv(df):
 
     #df.show()
    # return df_cleaned
+
 
 df = spark.read.csv(filepath, header=True, inferSchema=True)
 df_cleaned = data_cleaning_load_to_csv(df)
@@ -107,6 +107,7 @@ def data_transformation_load_to_csv(df):
     df = df.withColumn("Avg Speed", df["trip_miles"] / (df["Trip Duration"] / 3600))
     return df
 
+
 df_transform = data_transformation_load_to_csv(df)
 print("Transformed Data")
 df_transform.show()
@@ -116,9 +117,11 @@ df_cleaned.write.csv('/Users/meghnagupta/Downloads/transformed_data.csv', header
 
 ################# Data Ingestion to Snowflake DataWarehouse ##########
 
+
 def load_data_to_snowflake(df):
 
     # Define the database connection parameters
+    # TODO: Get real database
     sf_scope = 'snowflake-scope'
     sf_user = 'snowflake-username'
     sf_password = 'snowflake-password'
@@ -139,7 +142,7 @@ def load_data_to_snowflake(df):
         "sfWarehouse": sf_warehouse
     }
 
-    print ("Reading the transformed CSv file to load into the Snowflake")
+    print("Reading the transformed CSv file to load into the Snowflake")
     # Load the CSV data into a PySpark DataFrame
     csv_df = spark.read.csv('/Users/meghnagupta/Downloads/transformed_data.csv', header=True, inferSchema=True).withColumn("load_ts", current_timestamp())
 
@@ -151,9 +154,11 @@ def load_data_to_snowflake(df):
         .mode('overwrite') \
         .save()
 
-    print ("Data Ingested into the Snowflake")
+    print("Data Ingested into the Snowflake")
+
 
 load_data_to_snowflake(df)
+
 
 ############# API Response for Queries and Getting Dataset ##############
 
@@ -238,6 +243,10 @@ def get_dataset():
         'query3_csv': query3_csv,
         'query3_json': query3_json
     }
+    print("Data saved on the local disk")
     return response
 
+
 get_dataset()
+
+# End of file
