@@ -249,4 +249,10 @@ def get_dataset():
 
 get_dataset()
 
+# TODO: Add APIs for GET, PUT (parameterized)
+# TODO: enable notification messaging system
+# TODO: Add database connection module
+# TODO: Try to integrate with cloud native services
+# TODO: Break and modularize the project
+# TODO: Construct configuration file to add dependencies and parameters
 # End of file
