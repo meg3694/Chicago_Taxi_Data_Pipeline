@@ -42,13 +42,13 @@ Additionally, I would like to mention that I do not have a tool stack at my disp
 This README provided instructions on how to build a data pipeline for the Chicago Taxi Trip dataset. By following the steps outlined in this document, one should be able to successfully extract, transform, and load the data from the Chicago Taxi Trip dataset for further analysis.
 
 ## Part 2 - Architectural Overview
-- Please see the "`Architectural Overview CF Part 2.drawio`" file as a response to Part 2 of the assignment. To open the file please use the draw.io application (offline or online), simply google for draw.io, go to the tool, upload the design by choosing Device option. 
+- Please see the "`PoC Architectural Overview.drawio`" file as a response to Part 2 of the assignment. To open the file please use the draw.io application (offline or online), simply google for draw.io, go to the tool, upload the design by choosing Device option. 
 
 ### Short Explanation on the Architecture 
 
 - As we all know Data have become one of the primary business assets, and for a taxi service company good quality data will be the foundation of efficient operations. In order to actually 
 extract the value from data and monetize the value one needs an efficient data analytics platform that serves both the end customer (taxi service users) and business users (finance dept. or planning dept. for example), and is agile in its performance. 
-With the above being said, the non-functional requirements such as scalibility, reliability, and high-availibility is equally important as the functional ones. 
+With the above being said, the non-functional requirements such as scalability, reliability, and high-availibility is equally important as the functional ones. 
 
 - The diagram in the attached file represents one such high-level architecture of a data analytics platform that caters to acquire, organize, ingestion, processing, storage and consumption of data in an cost-effective, scalable and secure manner.
 - In an organization, there can be various data sources (both internal and external) of importance from which daily (or any other desired frequency) acquiring of data needs to happen. For this an automated collection agent will be very helpful through which one can manage the addition or deletion of various data sources. All this data, raw in nature, needs to be stored
